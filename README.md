@@ -7,7 +7,7 @@ Generate Authentication headers for NetSuite SOAP/REST requests
     package main
 
     import (
-        "felipechang/suiteauth-go/auth"
+        "github.com/felipechang/suiteauth-go/auth"
         "log"
     )
 
