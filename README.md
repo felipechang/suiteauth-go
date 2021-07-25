@@ -4,6 +4,13 @@ Generate Authentication headers for NetSuite SOAP/REST requests
 
 ## Usage:
 
+    package main
+
+    import (
+        "felipechang/suiteauth-go/auth"
+        "log"
+    )
+
     func main() {
 
 	p := auth.NewHeader(&auth.HeaderOptions{

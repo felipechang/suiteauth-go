@@ -1,8 +1,8 @@
 package main
 
 import (
+	"felipechang/suiteauth-go/auth"
 	"log"
-	"suiteauth-go/auth"
 )
 
 func main() {
