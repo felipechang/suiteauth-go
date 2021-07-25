@@ -1,7 +1,7 @@
 package main
 
 import (
-	"felipechang/suiteauth-go/auth"
+	"github.com/felipechang/suiteauth-go/auth"
 	"log"
 )
 
