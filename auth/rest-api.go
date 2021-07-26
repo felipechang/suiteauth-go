@@ -1,17 +1,12 @@
 package auth
 
 import (
-	"crypto/hmac"
-	"crypto/sha256"
-	"encoding/base64"
 	"fmt"
-	"math/rand"
 	"net/url"
-	"strconv"
 	"strings"
-	"time"
 )
 
+// GetRestApiBaseUri returns a base uri for the REST API
 func (h *HeaderOptions) GetRestApiBaseUri() string {
 	u := "https://"
 	u += h.AccountId
@@ -20,6 +15,7 @@ func (h *HeaderOptions) GetRestApiBaseUri() string {
 	return u
 }
 
+// GetRestApiAuthHeader returns a valid Suitetalk RESTlet OAuth1.0 header
 func (h *HeaderOptions) GetRestApiAuthHeader(method string, requestUrl string) string {
 
 	method = strings.ToUpper(method)
@@ -29,7 +25,7 @@ func (h *HeaderOptions) GetRestApiAuthHeader(method string, requestUrl string) s
 	values.Add("oauth_nonce", generateNonce())
 	values.Add("oauth_consumer_key", h.ConsumerKey)
 	values.Add("oauth_signature_method", "HMAC-SHA256")
-	values.Add("oauth_timestamp", strconv.Itoa(int(time.Now().Unix())))
+	values.Add("oauth_timestamp", timeStamp())
 	values.Add("oauth_token", h.TokenId)
 	values.Add("oauth_version", "1.0")
 
@@ -92,22 +88,4 @@ func splitURL(urlPath string) (string, string) {
 		return split[0], ""
 	}
 	return split[0], split[1]
-}
-
-// calculateSignature gets a base64 hashed SHA-256 string
-func calculateSignature(base string, key string) string {
-	hash := hmac.New(sha256.New, []byte(key))
-	hash.Write([]byte(base))
-	signature := hash.Sum(nil)
-	return base64.StdEncoding.EncodeToString(signature)
-}
-
-// generateNonce returns an 11 character random string
-func generateNonce() string {
-	const allowed = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-	b := make([]byte, 11)
-	for i := range b {
-		b[i] = allowed[rand.Intn(len(allowed))]
-	}
-	return string(b)
 }
