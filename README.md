@@ -12,7 +12,7 @@ Generate Authentication headers for NetSuite SOAP/REST requests
     )
 
     func main() {
-
+    
         p := auth.NewHeader(&auth.HeaderOptions{
             AccountId:      "1234567-sb1",
             ConsumerKey:    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
@@ -22,12 +22,15 @@ Generate Authentication headers for NetSuite SOAP/REST requests
         })
     
         soapUri := p.GetSoapApiBaseUri("2021_1")
-        soapHeader, err := p.GetSoapApiAuthHeader("2021_1")
+        soapHeader := p.GetSoapApiAuthHeader("2021_1")
+    
+        output, err := xml.MarshalIndent(soapHeader, "  ", "    ")
         if err != nil {
             log.Fatalln(err)
         }
+    
         log.Printf("auth soapUri: %s", soapUri)
-        log.Printf("auth soapHeader: %s", string(soapHeader))
+        log.Printf("auth soapHeader: %s", string(output))
     
         restUri := p.GetRestApiBaseUri()
         restHeader := p.GetRestApiAuthHeader("GET", restUri)
