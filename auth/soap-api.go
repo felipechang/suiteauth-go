@@ -38,7 +38,7 @@ func (h *HeaderOptions) GetSoapApiBaseUri(apiVersion string) string {
 }
 
 // GetSoapApiAuthHeader returns a valid Suitetalk SOAP header
-func (h *HeaderOptions) GetSoapApiAuthHeader(apiVersion string) ([]byte, error) {
+func (h *HeaderOptions) GetSoapApiAuthHeader(apiVersion string) *TokenPassport {
 
 	// generate nonce and timestamp
 	nonce := generateNonce()
@@ -82,10 +82,6 @@ func (h *HeaderOptions) GetSoapApiAuthHeader(apiVersion string) ([]byte, error) 
 			Algorithm: "HMAC-SHA256",
 		},
 	}
-	output, err := xml.MarshalIndent(v, "  ", "    ")
-	if err != nil {
-		return []byte{}, err
-	}
 
-	return output, nil
+	return v
 }

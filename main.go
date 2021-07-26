@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/xml"
 	"github.com/felipechang/suiteauth-go/auth"
 	"log"
 )
@@ -15,7 +16,19 @@ func main() {
 		TokenSecret:    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
 	})
 
-	header := p.GetRestApiAuthHeader("GET", p.GetRestApiBaseUri()+"customer?q=1")
+	soapUri := p.GetSoapApiBaseUri("2021_1")
+	soapHeader := p.GetSoapApiAuthHeader("2021_1")
 
-	log.Printf("auth header: %s", header)
+	output, err := xml.MarshalIndent(soapHeader, "  ", "    ")
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	log.Printf("auth soapUri: %s", soapUri)
+	log.Printf("auth soapHeader: %s", string(output))
+
+	restUri := p.GetRestApiBaseUri()
+	restHeader := p.GetRestApiAuthHeader("GET", restUri)
+	log.Printf("auth restUri: %s", restUri)
+	log.Printf("auth restHeader: %s", restHeader)
 }

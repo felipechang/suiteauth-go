@@ -21,7 +21,7 @@ type Header interface {
 	GetSoapApiBaseUri(apiVersion string) string
 
 	// GetSoapApiAuthHeader returns a valid Suitetalk SOAP header
-	GetSoapApiAuthHeader(apiVersion string) ([]byte, error)
+	GetSoapApiAuthHeader(apiVersion string) *TokenPassport
 }
 
 type HeaderOptions struct {

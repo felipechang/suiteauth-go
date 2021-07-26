@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"encoding/xml"
 	"strings"
 	"testing"
 )
@@ -38,12 +39,14 @@ func TestGetSoapApiAuthHeader(t *testing.T) {
 		TokenSecret:    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
 	})
 
-	authHeader, err := p.GetSoapApiAuthHeader("2021_1")
+	authHeader := p.GetSoapApiAuthHeader("2021_1")
+
+	output, err := xml.MarshalIndent(authHeader, "  ", "    ")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if !strings.Contains(string(authHeader), expected) {
+	if !strings.Contains(string(output), expected) {
 		t.Fatal("invalid auth header created")
 	}
 }
