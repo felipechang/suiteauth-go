@@ -40,13 +40,15 @@ func (h *HeaderOptions) GetSoapApiBaseUri(apiVersion string) string {
 // GetSoapApiAuthHeader returns a valid Suitetalk SOAP header
 func (h *HeaderOptions) GetSoapApiAuthHeader(apiVersion string) *TokenPassport {
 
+	accountId := strings.ReplaceAll(h.AccountId, "-", "_")
+
 	// generate nonce and timestamp
 	nonce := generateNonce()
 	timestamp := timeStamp()
 
 	// calculate signature from base and signing Key
 	base := strings.Join([]string{
-		h.AccountId,
+		accountId,
 		h.ConsumerKey,
 		h.TokenId,
 		nonce,
@@ -63,7 +65,7 @@ func (h *HeaderOptions) GetSoapApiAuthHeader(apiVersion string) *TokenPassport {
 		PlatformMsgs: "urn:messages_" + apiVersion + ".platform.webservices.netsuite.com",
 		Xs:           "http://www.w3.org/2001/XMLSchema",
 		Account: line{
-			Value: h.AccountId,
+			Value: accountId,
 		},
 		ConsumerKey: line{
 			Value: h.ConsumerKey,
